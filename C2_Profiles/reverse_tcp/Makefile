@@ -8,11 +8,9 @@ build:
 clean:
 	cd reverse_tcp/mythic && cargo clean
 	cd reverse_tcp/c2_code && cargo clean
-	cd reverse_tcp/mythic_grpc && cargo clean
-	cd reverse_tcp/mythic_rabbitmq && cargo clean
-	rm -f reverse_tcp/bin/reverse_tcp_server
-	rm -f reverse_tcp/bin/reverse_tcp_profile
-	rm -rf reverse_tcp/bin/logs
+	- rm -f reverse_tcp/bin/reverse_tcp_server
+	- rm -f reverse_tcp/bin/reverse_tcp_profile
+	- rm -rf reverse_tcp/bin/logs
 
 
 run:

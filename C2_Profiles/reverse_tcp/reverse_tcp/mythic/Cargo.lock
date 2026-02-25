@@ -1059,6 +1059,7 @@ dependencies = [
 [[package]]
 name = "mythic-rabbitmq"
 version = "0.1.0"
+source = "git+https://github.com/thespicybyte/mythic_rabbitmq#741afa4ccbe93b8a7457adacb90fc9cfeaddda35"
 dependencies = [
  "dotenv",
  "futures-lite 2.6.1",

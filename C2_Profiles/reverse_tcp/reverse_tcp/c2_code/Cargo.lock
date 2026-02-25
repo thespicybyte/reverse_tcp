@@ -515,6 +515,7 @@ checksum = "1d87ecb2933e8aeadb3e3a02b828fed80a7528047e68b4f424523a0981a3a084"
 [[package]]
 name = "mythic-grpc"
 version = "0.1.0"
+source = "git+https://github.com/thespicybyte/mythic_grpc#b9dc129e82600d6426d2866bdfe87fea65fc67fc"
 dependencies = [
  "dotenv",
  "prost",

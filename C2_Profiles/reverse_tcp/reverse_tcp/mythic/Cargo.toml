@@ -10,4 +10,4 @@ serde_json = "1.0"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 tracing-appender = "0.2"
-mythic-rabbitmq = { github = "https://github.com/thespicybyte/mythic_rabbitmq" }
+mythic-rabbitmq = { git = "https://github.com/thespicybyte/mythic_rabbitmq" }
