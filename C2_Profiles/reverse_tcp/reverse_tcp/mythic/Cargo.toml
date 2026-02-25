@@ -1,0 +1,13 @@
+[package]
+name = "reverse_tcp_profile"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tracing-appender = "0.2"
+mythic-rabbitmq = { github = "https://github.com/thespicybyte/mythic_rabbitmq" }
