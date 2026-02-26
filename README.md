@@ -1,66 +1,60 @@
-# ExampleContainers
+# reverse_tcp
 
-This repo serves as an example for the Python and Golang containers that Mythic supports.
+A Mythic C2 profile container implementing a reverse TCP channel, written entirely in Rust.
 
-## go_services
+## Overview
 
-`go_services` is an example container that supports:
+`reverse_tcp` listens on a TCP socket, receives messages from agents using a 4-byte length-prefixed framing protocol, and forwards them to the Mythic server via the Push C2 gRPC interface. Responses from Mythic are forwarded back to agents over the same TCP connection.
 
-- basic_agent - a trimmed down Poseidon agent with no agent code, but does include a payload definition, build steps, and a few commands
-- http - a trimmed down http c2 profile with no actual server code, but does include the c2 profile definition
-- my_logger - a basic logger services that just writes to stdout
-- my_webhooks - a basic webhook services 
-- no_actual_translation - a basic translation services that doesn't actually do anything to the messages
+The entire backend is written in Rust, made possible by two crates that are Rust ports of Mythic's official Go libraries:
 
-If you have go installed locally, you can test and run via:
+- [`mythic-rabbitmq`](https://github.com/thespicybyte/mythic_rabbitmq) — Rust port of Mythic's Go RabbitMQ library. Used by C2 profile containers to sync profile definitions, handle config checks, OPSEC checks, IOC extraction, and other callbacks from the Mythic server.
+- [`mythic-grpc`](https://github.com/thespicybyte/mythic_grpc) — Rust port of Mythic's Go gRPC library. Used by translation containers and C2 server code to forward agent messages to Mythic via bidirectional gRPC streaming (Push C2).
 
-- `cd ExampleContainers/Payload_Type/go_services`
-- `go mod download && go mod tidy`
-- `go build -o mythic_go_services .`
-- `make run_custom` (update the top of the `Makefile` with environment variables you need to set)
+This means C2 profiles, translation containers, payload type containers, and C2 servers can all be written in Rust.
 
-### What's happening
-At a high level, the `main.go` file imports each of the various "services" and calls `Initialize` on them. 
-In this function call:
-```go
-MythicContainer.StartAndRunForever([]MythicContainer.MythicServices{
-		MythicContainer.MythicServiceC2,
-		MythicContainer.MythicServiceTranslationContainer,
-		MythicContainer.MythicServiceWebhook,
-		MythicContainer.MythicServiceLogger,
-		MythicContainer.MythicServicePayload,
-	})
+## Architecture
+
+The container runs two binaries:
+
+| Binary | Crate | Purpose |
+|---|---|---|
+| `reverse_tcp_profile` | `mythic-rabbitmq` | Syncs the C2 profile definition to Mythic via RabbitMQ; handles config/OPSEC checks |
+| `reverse_tcp_server` | `mythic-grpc` | TCP listener that proxies agent messages to/from Mythic via gRPC Push C2 |
+
+## C2 Profile Parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `port` | Number | `4444` | TCP port to listen on |
+| `killdate` | Date | 365 days | Agent kill date |
+| `encrypted_exchange_check` | Boolean | `false` | Enable encrypted key exchange |
+| `AESPSK` | Choice | `none` | Encryption: `aes256_hmac` or `none` |
+| `callback_interval` | Number | `10` | Callback interval in seconds |
+
+## Installation via mythic-cli
+
+Install the container from the pre-built image in the GitHub Container Registry:
+
+```bash
+sudo ./mythic-cli install github https://github.com/thespicybyte/reverse_tcp
 ```
-You need to identify which services you're standing up. For example, if you have this project, but you only want the webhook part to run and sync to Mythic, then you can simply comment out the other services, and they won't try to sync over.
 
-The payload type, c2 profile, logger, and webhooks all connect via RabbitMQ to the Mythic server. The translation containers connect via gRPC to the Mythic server directly though.
-Because of this, if you want to run your services remotely (i.e. not within Docker-compose like the Mythic server), then you need to adjust two flags for Mythic's .env:
-```text
-MYTHIC_SERVER_BIND_LOCALHOST_ONLY="false"
-RABBITMQ_BIND_LOCALHOST_ONLY="false"
+To start the container manually:
+
+```bash
+sudo ./mythic-cli start reverse_tcp
 ```
-Then restart Mythic, `sudo ./mythic-cli start` so that Docker will bind those ports to `0.0.0.0` instead of `127.0.0.1`.
-## python_services
 
-`python_services` is an example container that supports:
+## Configuration
 
-- apfell - a basic instance of the `apfell` agent with payload definitions, build steps, and commands. This also shows examples of importing libraries on the side locally
-- mywebhook - a basic webhook service
-- translator - a basic translation service that doesn't actually do anything to the messages
-- websocket - a basic c2 profile 
+The C2 server reads its listen address and port from environment variables at runtime:
 
-### What's happening
-At a high level, the `main.py` file imports each of the various "services". Upon the import, the various classes are loaded into memory.
-In this function call:
-```python
-mythic_container.mythic_service.start_and_run_forever()
-```
-Mythic goes through all classes imported that are subclasses of PayloadType, C2Profile, etc and syncs over definitions.
+| Variable | Default | Description |
+|---|---|---|
+| `LISTEN_ADDR` | `0.0.0.0` | IP address to bind |
+| `LISTEN_PORT` | `4444` | TCP port to bind |
 
-The payload type, c2 profile, logger, and webhooks all connect via RabbitMQ to the Mythic server. The translation containers connect via gRPC to the Mythic server directly though.
-Because of this, if you want to run your services remotely (i.e. not within Docker-compose like the Mythic server), then you need to adjust two flags for Mythic's .env:
-```text
-MYTHIC_SERVER_BIND_LOCALHOST_ONLY="false"
-RABBITMQ_BIND_LOCALHOST_ONLY="false"
-```
-Then restart Mythic, `sudo ./mythic-cli start` so that Docker will bind those ports to `0.0.0.0` instead of `127.0.0.1`.
+## License
+
+BSD-3-Clause
