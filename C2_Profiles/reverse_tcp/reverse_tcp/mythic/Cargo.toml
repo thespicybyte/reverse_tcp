@@ -11,3 +11,4 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 tracing-appender = "0.2"
 mythic-rabbitmq = { git = "https://github.com/thespicybyte/mythic_rabbitmq" }
+dotenv = "0.15.0"
