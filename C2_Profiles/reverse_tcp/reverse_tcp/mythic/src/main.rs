@@ -31,7 +31,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .to_string(),
             is_p2p: false,
             is_server_routed: true,
-            semver: "0.0.1".to_string(),
+            semver: "0.2.0".to_string(),
             agent_icon: icon_bytes,
             dark_mode_agent_icon: None,
         })
