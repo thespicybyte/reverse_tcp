@@ -1,18 +1,26 @@
-use std::{env, fs};
+use std::{env, fs, fs::OpenOptions};
 use tracing::info;
 use tracing_subscriber::EnvFilter;
-use tracing_subscriber::{self, fmt, layer::SubscriberExt, Registry};
+use tracing_subscriber::{fmt, layer::SubscriberExt, Registry};
 
-pub fn init_logger(log_name: &str) -> Result<(), Box<dyn std::error::Error>> {
-    let log_level = env::var("MYTHIC_DEBUG_LEVEL").unwrap_or_else(|_| "info".to_string());
-    let _ = fs::create_dir_all("logs");
-    let log_file = log_name.to_string();
+pub fn init_logger(log_dir: &str, log_name: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let _ = dotenv::dotenv();
 
-    let file_appender = tracing_appender::rolling::daily("logs", log_file);
-    let file_layer = fmt::layer().with_writer(file_appender).with_ansi(false);
+    let log_level = env::var("DEBUG_LEVEL").unwrap_or_else(|_| "info".to_string());
+
+    // Ensure logs directory exists
+    fs::create_dir_all("logs")?;
+
+    // Open (or create) a single log file and append to it
+    let file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(format!("{}/{}", log_dir, log_name))?;
+
+    let file_layer = fmt::layer().with_writer(file).with_ansi(false);
+
     let stdout_layer = fmt::layer().with_writer(std::io::stdout).with_ansi(true);
 
-    // Create a subscriber with explicit level configuration to ensure messages are shown
     let subscriber = Registry::default()
         .with(EnvFilter::new(log_level))
         .with(stdout_layer)
@@ -21,5 +29,6 @@ pub fn init_logger(log_name: &str) -> Result<(), Box<dyn std::error::Error>> {
     tracing::subscriber::set_global_default(subscriber)?;
 
     info!("Logger initialized for reverse_tcp profile");
+
     Ok(())
 }

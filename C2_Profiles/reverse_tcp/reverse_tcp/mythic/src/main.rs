@@ -14,7 +14,7 @@ use mythic_rabbitmq::{
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    logging::init_logger("reverse_tcp_profile")?;
+    logging::init_logger("logs", "reverse_tcp_profile")?;
 
     info!("Starting reverse_tcp C2 profile...");
 
