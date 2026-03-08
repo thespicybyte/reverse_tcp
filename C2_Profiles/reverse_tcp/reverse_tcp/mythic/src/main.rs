@@ -25,7 +25,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     MythicC2Container::builder()
         .profile(C2ProfileDefinition {
             name: "reverse_tcp".to_string(),
-            author: "@spicybyte".to_string(),
+            author: "@thespicybyte".to_string(),
             description: "Listens on a TCP socket, receives messages from agents,
                 and forwards them to the Mythic server via Push C2"
                 .to_string(),

@@ -1,0 +1,9 @@
+{
+  "instances": [
+    {
+      "port": 4444,
+      "debug": false,
+      "bind_ip": "0.0.0.0"
+    }
+  ]
+}
