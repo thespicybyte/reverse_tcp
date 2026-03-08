@@ -1,9 +1,0 @@
-2026-03-08T05:10:21.405340Z  INFO reverse_tcp_server::logging: Logger initialized for reverse_tcp server
-2026-03-08T05:10:21.405461Z  INFO reverse_tcp_server::server: listening for connections addr=0.0.0.0:4444
-2026-03-08T05:10:53.732558Z  INFO reverse_tcp_server::server: new client connected peer=127.0.0.1:59196
-2026-03-08T05:10:53.733051Z  INFO mythic_grpc::client: Creating new Mythic GRPC client for 127.0.0.1:17444
-2026-03-08T05:10:53.733920Z  INFO reverse_tcp_server::server: PushC2 stream opened remote_ip="127.0.0.1"
-2026-03-08T05:10:53.734103Z  INFO reverse_tcp_server::server: received data from agent len=400 data=NTUzMjk0MTktMzVhMS00MzMzLWJiYjgtMGExZWUyZjU2NjlkeyJhY3Rpb24iOiJjaGVja2luIiwidXVpZCI6IjU1MzI5NDE5LTM1YTEtNDMzMy1iYmI4LTBhMWVlMmY1NjY5ZCIsImlwcyI6WyIxOTIuMTY4LjEwLjIyIiwiMTAwLjEyNS4zOS44NSIsIjE3Mi4xNy4wLjEiLCIxNzIuMTguMC4xIl0sIm9zIjoiTGludXgiLCJ1c2VyIjoic3BpY3lieXRlIiwiaG9zdCI6InNwaWN5LXVidW50dSIsInBpZCI6MTA5NTEsImFyY2hpdGVjdHVyZSI6Ing2NCIsImRvbWFpbiI6InNwaWN5LXVidW50dSIsImludGVncml0eV9sZXZlbCI6Mn0=
-2026-03-08T05:11:09.691675Z  INFO reverse_tcp_server::server: agent_to_mythic finished
-2026-03-08T05:11:09.691909Z  INFO reverse_tcp_server::server: connection closed remote_ip="127.0.0.1"
-2026-03-08T05:11:09.695292Z ERROR mythic_grpc::client: PushC2 OneToOne: stream error: status: Unknown, message: "client disconnected: 672daf87-34c7-4d51-b6bd-a519428c255a", details: [], metadata: MetadataMap { headers: {} }
