@@ -1206,7 +1206,8 @@ dependencies = [
 
 [[package]]
 name = "mythic-rabbitmq"
-version = "0.1.0"
+version = "0.2.0"
+source = "git+https://github.com/thespicybyte/mythic_rabbitmq#2043af2205dd8b6f45846e4c11e8fa38235f061b"
 dependencies = [
  "base64",
  "dotenv",
@@ -1635,7 +1636,7 @@ dependencies = [
 
 [[package]]
 name = "reverse_tcp_profile"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "dotenv",
  "mythic-rabbitmq",
