@@ -4,7 +4,7 @@ use tracing_subscriber::EnvFilter;
 use tracing_subscriber::{self, Registry, fmt, layer::SubscriberExt};
 
 pub fn init_logger(log_name: &str) -> Result<(), Box<dyn std::error::Error>> {
-    let log_level = env::var("MYTHIC_DEBUG_LEVEL").unwrap_or_else(|_| "info".to_string());
+    let log_level = env::var("DEBUG_LEVEL").unwrap_or_else(|_| "info".to_string());
     let _ = fs::create_dir_all("logs");
     let log_file = log_name.to_string();
 
