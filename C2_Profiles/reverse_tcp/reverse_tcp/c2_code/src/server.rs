@@ -12,7 +12,7 @@ use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
     net::{TcpListener, TcpStream},
 };
-use tracing::{error, info, warn};
+use tracing::{debug, error, info, warn};
 
 use crate::error::ServerError;
 
@@ -131,9 +131,10 @@ async fn handle_connection(stream: TcpStream, remote_ip: String) {
             };
 
             if tx_clone.send(msg).await.is_err() {
-                // gRPC stream closed
+                warn!("gRPC send channel closed; dropping agent_to_mythic task");
                 break;
             }
+            debug!(len = msg_len, "forwarded agent message to Mythic via gRPC");
         }
     });
 

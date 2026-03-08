@@ -1,0 +1,33 @@
+2026-03-03T05:19:18.733304Z  INFO reverse_tcp_server::logging: Logger initialized for reverse_tcp server
+2026-03-03T05:19:18.733352Z DEBUG reverse_tcp_server: server initialized server=Server { port: 4444, ip: 0.0.0.0 }
+2026-03-03T05:19:18.733403Z  INFO reverse_tcp_server::server: listening for connections addr=0.0.0.0:4444
+2026-03-03T05:20:01.100267Z  INFO reverse_tcp_server::logging: Logger initialized for reverse_tcp server
+2026-03-03T05:20:01.100308Z DEBUG reverse_tcp_server: server initialized server=Server { port: 4444, ip: 0.0.0.0 }
+2026-03-03T05:20:01.100373Z  INFO reverse_tcp_server::server: listening for connections addr=0.0.0.0:4444
+2026-03-03T05:20:13.655132Z  INFO reverse_tcp_server::logging: Logger initialized for reverse_tcp server
+2026-03-03T05:20:13.655175Z DEBUG reverse_tcp_server: server initialized server=Server { port: 4444, ip: 0.0.0.0 }
+2026-03-03T05:20:13.655232Z  INFO reverse_tcp_server::server: listening for connections addr=0.0.0.0:4444
+2026-03-03T07:28:03.613909Z  INFO reverse_tcp_server::server: new client connected peer=192.168.10.22:43610
+2026-03-03T07:28:03.614388Z DEBUG mythic_grpc::environment: MYTHIC_SERVER_HOST set to mythic_server
+2026-03-03T07:28:03.614435Z DEBUG mythic_grpc::environment: MYTHIC_SERVER_GRPC_PORT set to 17444
+2026-03-03T07:28:03.614460Z  INFO mythic_grpc::client: Creating new Mythic GRPC client for mythic_server:17444
+2026-03-03T07:28:03.614482Z DEBUG mythic_grpc::client: Starting PushC2 streaming (OneToOne mode)
+2026-03-03T07:28:03.614507Z DEBUG mythic_grpc::client: Connecting to Mythic gRPC at http://mythic_server:17444
+2026-03-03T07:28:03.614816Z DEBUG hyper::client::connect::dns: resolving host="mythic_server"
+2026-03-03T07:28:08.621604Z ERROR reverse_tcp_server::server: failed to open PushC2 stream error=GRPC connection error: transport error
+2026-03-03T07:29:17.827473Z  INFO reverse_tcp_server::server: new client connected peer=192.168.10.22:55168
+2026-03-03T07:29:17.827849Z DEBUG mythic_grpc::environment: MYTHIC_SERVER_HOST set to mythic_server
+2026-03-03T07:29:17.827877Z DEBUG mythic_grpc::environment: MYTHIC_SERVER_GRPC_PORT set to 17444
+2026-03-03T07:29:17.827889Z  INFO mythic_grpc::client: Creating new Mythic GRPC client for mythic_server:17444
+2026-03-03T07:29:17.827900Z DEBUG mythic_grpc::client: Starting PushC2 streaming (OneToOne mode)
+2026-03-03T07:29:17.827917Z DEBUG mythic_grpc::client: Connecting to Mythic gRPC at http://mythic_server:17444
+2026-03-03T07:29:17.828096Z DEBUG hyper::client::connect::dns: resolving host="mythic_server"
+2026-03-03T07:29:22.835945Z ERROR reverse_tcp_server::server: failed to open PushC2 stream error=GRPC connection error: transport error
+2026-03-03T07:29:49.858998Z  INFO reverse_tcp_server::server: new client connected peer=192.168.10.22:52814
+2026-03-03T07:29:49.859355Z DEBUG mythic_grpc::environment: MYTHIC_SERVER_HOST set to mythic_server
+2026-03-03T07:29:49.859382Z DEBUG mythic_grpc::environment: MYTHIC_SERVER_GRPC_PORT set to 17444
+2026-03-03T07:29:49.859398Z  INFO mythic_grpc::client: Creating new Mythic GRPC client for mythic_server:17444
+2026-03-03T07:29:49.859410Z DEBUG mythic_grpc::client: Starting PushC2 streaming (OneToOne mode)
+2026-03-03T07:29:49.859427Z DEBUG mythic_grpc::client: Connecting to Mythic gRPC at http://mythic_server:17444
+2026-03-03T07:29:49.859609Z DEBUG hyper::client::connect::dns: resolving host="mythic_server"
+2026-03-03T07:29:54.867116Z ERROR reverse_tcp_server::server: failed to open PushC2 stream error=GRPC connection error: transport error
