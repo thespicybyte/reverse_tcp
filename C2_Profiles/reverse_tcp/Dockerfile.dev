@@ -1,0 +1,40 @@
+# syntax=docker/dockerfile:1
+#
+# Fast dev rebuild — builds FROM the already-pulled release image so the
+# debian runtime layer and copied source are reused. Only recompiles changed
+# Rust source using BuildKit cache mounts.
+#
+# Usage (from the reverse_tcp/ directory):
+#   ./dev-build.sh
+
+FROM ghcr.io/thespicybyte/reverse_tcp:v0.3.1 AS base
+
+# ---- Re-build reverse_tcp_profile ----
+FROM rust:1.93 AS profile-builder
+WORKDIR /build/mythic
+RUN rustup target add x86_64-unknown-linux-musl && \
+    apt-get update && apt-get install -y musl-tools protobuf-compiler && \
+    rm -rf /var/lib/apt/lists/*
+COPY reverse_tcp/mythic/ .
+RUN --mount=type=cache,target=/usr/local/cargo/registry \
+    --mount=type=cache,target=/build/mythic/target \
+    cargo update mythic-rabbitmq && \
+    cargo build --release --target x86_64-unknown-linux-musl && \
+    cp target/x86_64-unknown-linux-musl/release/reverse_tcp_profile /reverse_tcp_profile
+
+# ---- Re-build reverse_tcp_server ----
+FROM rust:1.93 AS server-builder
+WORKDIR /build/c2_code
+RUN rustup target add x86_64-unknown-linux-musl && \
+    apt-get update && apt-get install -y musl-tools protobuf-compiler && \
+    rm -rf /var/lib/apt/lists/*
+COPY reverse_tcp/c2_code/ .
+RUN --mount=type=cache,target=/usr/local/cargo/registry \
+    --mount=type=cache,target=/build/c2_code/target \
+    cargo build --release --target x86_64-unknown-linux-musl && \
+    cp target/x86_64-unknown-linux-musl/release/reverse_tcp_server /reverse_tcp_server
+
+# ---- Final: base image with fresh binaries dropped in ----
+FROM base
+COPY --from=profile-builder /reverse_tcp_profile /reverse_tcp_profile
+COPY --from=server-builder /reverse_tcp_server /reverse_tcp_server
