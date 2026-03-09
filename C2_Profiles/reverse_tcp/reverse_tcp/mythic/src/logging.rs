@@ -21,8 +21,11 @@ pub fn init_logger(log_dir: &str, log_name: &str) -> Result<(), Box<dyn std::err
 
     let stdout_layer = fmt::layer().with_writer(std::io::stdout).with_ansi(true);
 
+    let filter = EnvFilter::try_from_default_env()
+        .unwrap_or_else(|_| EnvFilter::new(format!("lapin=warn,io_loop=warn,{log_level}")));
+
     let subscriber = Registry::default()
-        .with(EnvFilter::new(log_level))
+        .with(filter)
         .with(stdout_layer)
         .with(file_layer);
 

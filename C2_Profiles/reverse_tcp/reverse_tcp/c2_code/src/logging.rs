@@ -12,9 +12,12 @@ pub fn init_logger(log_name: &str) -> Result<(), Box<dyn std::error::Error>> {
     let file_layer = fmt::layer().with_writer(file_appender).with_ansi(false);
     let stdout_layer = fmt::layer().with_writer(std::io::stdout).with_ansi(true);
 
+    let filter = EnvFilter::try_from_default_env()
+        .unwrap_or_else(|_| EnvFilter::new(format!("lapin=warn,io_loop=warn,h2=warn,{log_level}")));
+
     // Create a subscriber with explicit level configuration to ensure messages are shown
     let subscriber = Registry::default()
-        .with(EnvFilter::new(log_level))
+        .with(filter)
         .with(stdout_layer)
         .with(file_layer);
 
