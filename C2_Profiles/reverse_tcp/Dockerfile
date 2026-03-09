@@ -1,1 +1,1 @@
-FROM ghcr.io/thespicybyte/reverse_tcp:v0.3.1
+FROM ghcr.io/thespicybyte/reverse_tcp:v0.4.0
